@@ -453,9 +453,9 @@ def random_input_gen(tb):
 @cocotb.coroutine
 def clock_gen(signal):
     while True:
-        signal <= 0
+        signal.value <= 0
         yield Timer(1)
-        signal <= 1
+        signal.value <= 1
         yield Timer(1)
 
 
@@ -463,9 +463,9 @@ def clock_gen(signal):
 def run_test(dut):
     cocotb.fork(clock_gen(dut.CLK))
     tb = TestBench(dut)
-    dut.RST_N <= 0
+    dut.RST_N.value <= 0
     yield Timer(2)
-    dut.RST_N <= 1
+    dut.RST_N.value <= 1
 
     for n in range(1000):
         input_gen = random_input_gen(tb)
