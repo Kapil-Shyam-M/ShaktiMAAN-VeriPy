@@ -31,7 +31,7 @@ class put_load_ins_Driver(BusDriver):
         yield super()._wait_for_signal(dut.RDY_ifc_put_load_params_put)
         yield super().send(transaction,False)
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_load_params_put <= 0; 
+        self.bus.EN_ifc_put_load_params_put.value <= 0; 
 
 
 class put_load_ins_Transaction(object):
@@ -65,7 +65,7 @@ class put_load_ins_Monitor(BusMonitor):
         while True:
              
             yield RisingEdge(self.clock)
-            if self.bus.EN_ifc_put_load_params_put == 1:
+            if self.bus.EN_ifc_put_load_params_put.value == 1:
                 print('[IN_MON] {0:<25} : {1}'.format('ifc_put_load_params_put', hex(self.bus.ifc_put_load_params_put.value.integer)))
                 print('[IN_MON] {0:<25} : {1}'.format('EN_ifc_put_load_params_put', hex(self.bus.EN_ifc_put_load_params_put.value.integer)))
 
@@ -83,9 +83,9 @@ class get_load_ins_Driver(BusDriver):
     @coroutine
     def get_params(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_get_load_instruction_get)
-        self.bus.EN_ifc_get_load_instruction_get <= 1;
+        self.bus.EN_ifc_get_load_instruction_get.value <= 1; 
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_get_load_instruction_get <= 0; 
+        self.bus.EN_ifc_get_load_instruction_get.value <= 0; 
 
 class put_load_complete_Driver(BusDriver):
     _signals = [
@@ -99,9 +99,9 @@ class put_load_complete_Driver(BusDriver):
     @coroutine
     def put_complete(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_put_load_complete_put)
-        self.bus.EN_ifc_put_load_complete_put <= 1;
+        self.bus.EN_ifc_put_load_complete_put.value <= 1; 
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_load_complete_put <= 0; 
+        self.bus.EN_ifc_put_load_complete_put.value <= 0; 
 
 class put_compute_ins_Driver(BusDriver):
     _signals = [
@@ -118,7 +118,7 @@ class put_compute_ins_Driver(BusDriver):
         yield super()._wait_for_signal(dut.RDY_ifc_put_compute_params_put)
         yield super().send(transaction,False)
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_compute_params_put <= 0; 
+        self.bus.EN_ifc_put_compute_params_put.value <= 0; 
 
 
 class put_compute_ins_Transaction(object):
@@ -144,9 +144,9 @@ class get_compute_ins_Driver(BusDriver):
     @coroutine
     def get_params(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_get_gemm_instruction_get)
-        self.bus.EN_ifc_get_gemm_instruction_get <= 1;
+        self.bus.EN_ifc_get_gemm_instruction_get.value <= 1;
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_get_gemm_instruction_get <= 0; 
+        self.bus.EN_ifc_get_gemm_instruction_get.value <= 0; 
 
 class put_compute_complete_Driver(BusDriver):
     _signals = [
@@ -160,9 +160,9 @@ class put_compute_complete_Driver(BusDriver):
     @coroutine
     def put_complete(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_put_gemm_complete_put)
-        self.bus.EN_ifc_put_gemm_complete_put <= 1;
+        self.bus.EN_ifc_put_gemm_complete_put.value <= 1; 
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_gemm_complete_put <= 0; 
+        self.bus.EN_ifc_put_gemm_complete_put.value <= 0; 
 
 class put_alu_ins_Driver(BusDriver):
     _signals = [
@@ -179,7 +179,7 @@ class put_alu_ins_Driver(BusDriver):
         yield super()._wait_for_signal(dut.RDY_ifc_put_alu_params_put)
         yield super().send(transaction,False)
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_alu_params_put <= 0; 
+        self.bus.EN_ifc_put_alu_params_put.value <= 0; 
 
 
 class put_alu_ins_Transaction(object):
@@ -205,9 +205,9 @@ class get_alu_ins_Driver(BusDriver):
     @coroutine
     def get_params(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_get_alu_instruction_get)
-        self.bus.EN_ifc_get_alu_instruction_get <= 1;
+        self.bus.EN_ifc_get_alu_instruction_get.value <= 1;
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_get_alu_instruction_get <= 0; 
+        self.bus.EN_ifc_get_alu_instruction_get.value <= 0; 
 
 class put_alu_complete_Driver(BusDriver):
     _signals = [
@@ -221,9 +221,9 @@ class put_alu_complete_Driver(BusDriver):
     @coroutine
     def put_complete(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_put_alu_complete_put)
-        self.bus.EN_ifc_put_alu_complete_put <= 1;
+        self.bus.EN_ifc_put_alu_complete_put.value <= 1; 
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_alu_complete_put <= 0; 
+        self.bus.EN_ifc_put_alu_complete_put.value <= 0; 
 
 class put_store_ins_Driver(BusDriver):
     _signals = [
@@ -240,7 +240,7 @@ class put_store_ins_Driver(BusDriver):
         yield super()._wait_for_signal(dut.RDY_ifc_put_store_params_put)
         yield super().send(transaction,False)
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_store_params_put <= 0; 
+        self.bus.EN_ifc_put_store_params_put.value <= 0; 
 
 
 class put_store_ins_Transaction(object):
@@ -266,9 +266,9 @@ class get_store_ins_Driver(BusDriver):
     @coroutine
     def get_params(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_get_store_instruction_get)
-        self.bus.EN_ifc_get_store_instruction_get <= 1;
+        self.bus.EN_ifc_get_store_instruction_get.value <= 1;
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_get_store_instruction_get <= 0; 
+        self.bus.EN_ifc_get_store_instruction_get.value <= 0; 
 
 class put_store_complete_Driver(BusDriver):
     _signals = [
@@ -282,9 +282,9 @@ class put_store_complete_Driver(BusDriver):
     @coroutine
     def put_complete(self,dut):
         yield super()._wait_for_signal(dut.RDY_ifc_put_store_complete_put)
-        self.bus.EN_ifc_put_store_complete_put <= 1;
+        self.bus.EN_ifc_put_store_complete_put.value <= 1; 
         yield RisingEdge(self.clock)
-        self.bus.EN_ifc_put_store_complete_put <= 0; 
+        self.bus.EN_ifc_put_store_complete_put.value <= 0; 
 
 class TestBench(object):
     """Verification Test Bench"""
@@ -325,9 +325,9 @@ class TestBench(object):
 @cocotb.coroutine
 def clock_gen(signal):
     while True:
-        signal <= 0
+        signal.value <= 0
         yield Timer(1)
-        signal <= 1
+        signal.value <= 1
         yield Timer(1)
 
 
@@ -335,9 +335,9 @@ def clock_gen(signal):
 def run_test(dut):
     cocotb.fork(clock_gen(dut.CLK))
     tb = TestBench(dut)
-    dut.RST_N <= 0
+    dut.RST_N.value <= 0
     yield Timer(2)
-    dut.RST_N <= 1
+    dut.RST_N.value <= 1
     yield RisingEdge(dut.CLK)
 
     i = random.randrange(0,3)
