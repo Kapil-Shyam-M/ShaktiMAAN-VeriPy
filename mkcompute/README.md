@@ -1,1 +1,1 @@
-Systolic Verif
+Systolic Array Verification
