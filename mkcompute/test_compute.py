@@ -51,7 +51,7 @@ class Parameter_Driver(BusDriver):
         yield super()._wait_for_signal(dut.RDY_subifc_put_compute_params_put)
         yield super().send(transaction,False)
         yield RisingEdge(self.clock)
-        self.bus.EN_subifc_put_compute_params_put <= 0; 
+        self.bus.EN_subifc_put_compute_params_put.value <= 0; 
 
 
 class Parameter_Transaction(object):
@@ -85,7 +85,7 @@ class Parameter_Monitor(BusMonitor):
         while True:
              
             yield RisingEdge(self.clock)
-            if self.bus.EN_subifc_put_compute_params_put == 1:
+            if self.bus.EN_subifc_put_compute_params_put.value == 1:
                 print('[IN_MON] {0:<25} : {1}'.format('subifc_put_compute_params_put', hex(self.bus.subifc_put_compute_params_put.value.integer)))
                 print('[IN_MON] {0:<25} : {1}'.format('EN_subifc_put_compute_params_put', hex(self.bus.EN_subifc_put_compute_params_put.value.integer)))
 
@@ -102,11 +102,11 @@ class get_wt_sram_req_Driver(BusDriver):
         while True:
            yield super()._wait_for_signal(dut.RDY_get_wt_addr)
 
-           self.bus.EN_get_wt_addr <= 1
+           self.bus.EN_get_wt_addr.value <= 1
 
            yield RisingEdge(self.clock)
 
-           self.bus.EN_get_wt_addr <= 0
+           self.bus.EN_get_wt_addr.value <= 0
 
 wt_addr_queue_actual = []
 
@@ -130,7 +130,7 @@ class get_wt_sram_req_Monitor(BusMonitor):
         while True:
              
             yield RisingEdge(self.clock)
-            if self.bus.EN_get_wt_addr == 1:
+            if self.bus.EN_get_wt_addr.value == 1:
                 print('[IN_MON] {0:<25} : {1}'.format('get_wt_addr', hex(self.bus.get_wt_addr.value.integer)))
                 wt_addr_queue_actual.append(self.bus.get_wt_addr.value.integer)
 
@@ -147,16 +147,16 @@ class put_wt_sram_data_Driver(BusDriver):
     @coroutine
     def send_wt_sram_data(self,dut):
         while True:
-           if dut.EN_get_wt_addr == 1:
+           if dut.EN_get_wt_addr.value == 1:
               yield super()._wait_for_signal(dut.RDY_put_wt_resp)
    
-              self.bus.EN_put_wt_resp <= 1
+              self.bus.EN_put_wt_resp.value <= 1
    
-              self.bus.put_wt_resp_weights <= 257
+              self.bus.put_wt_resp_weights.value <= 257
    
            yield RisingEdge(self.clock)
    	
-           self.bus.EN_put_wt_resp <= 0
+           self.bus.EN_put_wt_resp.value <= 0
 
 
 class put_wt_sram_data_Monitor(BusMonitor):
@@ -179,7 +179,7 @@ class put_wt_sram_data_Monitor(BusMonitor):
         while True:
              
             yield RisingEdge(self.clock)
-            if self.bus.EN_put_wt_resp == 1:
+            if self.bus.EN_put_wt_resp.value == 1:
                 print('[IN_MON] {0:<25} : {1}'.format('put_wt_resp_weights', hex(self.bus.put_wt_resp_weights.value.integer)))
 
 class get_ip_sram_req_Driver(BusDriver):
@@ -195,13 +195,13 @@ class get_ip_sram_req_Driver(BusDriver):
            
            yield super()._wait_for_signal(dut.RDY_get_inp_addr_0_get)
            
-           self.bus.EN_get_inp_addr_0_get <= 1
-           self.bus.EN_get_inp_addr_1_get <= 1
+           self.bus.EN_get_inp_addr_0_get.value <= 1
+           self.bus.EN_get_inp_addr_1_get.value <= 1
 
            yield RisingEdge(self.clock)
 
-           self.bus.EN_get_inp_addr_0_get <= 0
-           self.bus.EN_get_inp_addr_1_get <= 0
+           self.bus.EN_get_inp_addr_0_get.value <= 0
+           self.bus.EN_get_inp_addr_1_get.value <= 0
 
 ip_addr_value_queue_actual = [[],[]]
 
@@ -223,7 +223,7 @@ class get_ip0_sram_req_Monitor(BusMonitor):
 
            yield RisingEdge(self.clock)
 
-           if self.bus.EN_get_inp_addr_0_get == 1:
+           if self.bus.EN_get_inp_addr_0_get.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('get_ip_addr', hex(self.bus.get_inp_addr_0_get.value.integer)))
               ip_addr_value_queue_actual[0].append(self.bus.get_inp_addr_0_get.value.integer)
 
@@ -238,16 +238,16 @@ class put_ip0_sram_data_Driver(BusDriver):
     def send_ip_resp_sram_data(self,dut):
 
         while True:
-           if (dut.EN_get_inp_addr_0_get == 1) and ((self.bus.get_inp_addr_0_get.value.integer >> 1) % 2 == 1):
+           if (dut.EN_get_inp_addr_0_get.value == 1) and ((self.bus.get_inp_addr_0_get.value.integer >> 1) % 2 == 1):
               yield super()._wait_for_signal(dut.RDY_put_inp_resp_0_put)
 
-              self.bus.EN_put_inp_resp_0_put <= 1
+              self.bus.EN_put_inp_resp_0_put.value <= 1
                   
-              self.bus.put_inp_resp_0_put <= 1
+              self.bus.put_inp_resp_0_put.value <= 1
               
            yield RisingEdge(self.clock)
            	   
-           self.bus.EN_put_inp_resp_0_put <= 0
+           self.bus.EN_put_inp_resp_0_put.value <= 0
 
 class put_ip0_sram_data_Monitor(BusMonitor):
     """Passive output monitor of DUT"""
@@ -267,7 +267,7 @@ class put_ip0_sram_data_Monitor(BusMonitor):
              
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_put_inp_resp_0_put == 1:
+            if self.bus.EN_put_inp_resp_0_put.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('put_ip_resp', hex(self.bus.put_inp_resp_0_put.value.integer)))
 
 
@@ -289,7 +289,7 @@ class get_ip1_sram_req_Monitor(BusMonitor):
 
            yield RisingEdge(self.clock)
 
-           if self.bus.EN_get_inp_addr_1_get == 1:
+           if self.bus.EN_get_inp_addr_1_get.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('get_ip_addr', hex(self.bus.get_inp_addr_1_get.value.integer)))
               ip_addr_value_queue_actual[1].append(self.bus.get_inp_addr_1_get.value.integer)
 
@@ -304,16 +304,16 @@ class put_ip1_sram_data_Driver(BusDriver):
     def send_ip_resp_sram_data(self,dut):
 
         while True:
-           if (dut.EN_get_inp_addr_1_get == 1) and ((self.bus.get_inp_addr_1_get.value.integer >> 1) % 2 == 1):
+           if (dut.EN_get_inp_addr_1_get.value == 1) and ((self.bus.get_inp_addr_1_get.value.integer >> 1) % 2 == 1):
               yield super()._wait_for_signal(dut.RDY_put_inp_resp_1_put)
 
-              self.bus.EN_put_inp_resp_1_put <= 1
+              self.bus.EN_put_inp_resp_1_put.value <= 1
                   
-              self.bus.put_inp_resp_1_put <= 1
+              self.bus.put_inp_resp_1_put.value <= 1
               
            yield RisingEdge(self.clock)
            	   
-           self.bus.EN_put_inp_resp_1_put <= 0
+           self.bus.EN_put_inp_resp_1_put.value <= 0
 
 class put_ip1_sram_data_Monitor(BusMonitor):
     """Passive output monitor of DUT"""
@@ -333,7 +333,7 @@ class put_ip1_sram_data_Monitor(BusMonitor):
              
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_put_inp_resp_1_put == 1:
+            if self.bus.EN_put_inp_resp_1_put.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('put_ip_resp', hex(self.bus.put_inp_resp_1_put.value.integer)))
 
 old_op_addr_value_queue_actual = [[],[]]
@@ -352,17 +352,17 @@ class get_old_op_sram_req_Driver(BusDriver):
            #yield super()._wait_for_signal(dut.RDY_get_old_out_addr_0_get)
            yield FallingEdge(self.clock)
 
-           if dut.RDY_get_old_out_addr_0_get == 1:
-            self.bus.EN_get_old_out_addr_0_get <= 1
-           if dut.RDY_get_old_out_addr_1_get == 1:
-            self.bus.EN_get_old_out_addr_1_get <= 1
+           if dut.RDY_get_old_out_addr_0_get.value == 1:
+            self.bus.EN_get_old_out_addr_0_get.value <= 1
+           if dut.RDY_get_old_out_addr_1_get.value == 1:
+            self.bus.EN_get_old_out_addr_1_get.value <= 1
 
            yield RisingEdge(self.clock)
 
-           if dut.RDY_get_old_out_addr_0_get == 1:
-            self.bus.EN_get_old_out_addr_0_get <= 0
-           if dut.RDY_get_old_out_addr_1_get == 1:
-            self.bus.EN_get_old_out_addr_1_get <= 0
+           if dut.RDY_get_old_out_addr_0_get.value == 1:
+            self.bus.EN_get_old_out_addr_0_get.value <= 0
+           if dut.RDY_get_old_out_addr_1_get.value == 1:
+            self.bus.EN_get_old_out_addr_1_get.value <= 0
 
 
 class get_old_op0_sram_req_Monitor(BusMonitor):
@@ -401,13 +401,13 @@ class put_old_op0_sram_data_Driver(BusDriver):
            if (self.bus.EN_get_old_out_addr_0_get == 1) and ((self.bus.get_old_out_addr_0_get.value.integer >> 1) % 2 == 1):
               yield super()._wait_for_signal(dut.RDY_put_old_out_resp_0_put)
    
-              self.bus.EN_put_old_out_resp_0_put <= 1
+              self.bus.EN_put_old_out_resp_0_put.value <= 1
    
-              self.bus.put_old_out_resp_0_put <= 1
+              self.bus.put_old_out_resp_0_put.value <= 1
    
            yield RisingEdge(self.clock)
    	
-           self.bus.EN_put_old_out_resp_0_put <= 0
+           self.bus.EN_put_old_out_resp_0_put.value <= 0
 
 class put_old_op0_sram_data_Monitor(BusMonitor):
     """Passive output monitor of DUT"""
@@ -427,7 +427,7 @@ class put_old_op0_sram_data_Monitor(BusMonitor):
              
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_put_old_out_resp_0_put == 1:
+            if self.bus.EN_put_old_out_resp_0_put.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('put_old_op_resp', hex(self.bus.put_old_out_resp_0_put.value.integer)))
 
 
@@ -449,7 +449,7 @@ class get_old_op1_sram_req_Monitor(BusMonitor):
 
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_get_old_out_addr_1_get == 1:
+            if self.bus.EN_get_old_out_addr_1_get.value == 1:
                print('[IN_MON] {0:<25} : {1}'.format('get_old_op_addr', hex(self.bus.get_old_out_addr_1_get.value.integer)))
                old_op_addr_value_queue_actual[1].append(self.bus.get_old_out_addr_1_get.value.integer)
 
@@ -464,16 +464,16 @@ class put_old_op1_sram_data_Driver(BusDriver):
     def send_old_op_resp_sram_data(self,dut):
 
         while True:
-           if (self.bus.EN_get_old_out_addr_1_get == 1) and ((self.bus.get_old_out_addr_1_get.value.integer >> 1) % 2 == 1):
+           if (self.bus.EN_get_old_out_addr_1_get.value == 1) and ((self.bus.get_old_out_addr_1_get.value.integer >> 1) % 2 == 1):
               yield super()._wait_for_signal(dut.RDY_put_old_out_resp_1_put)
    
-              self.bus.EN_put_old_out_resp_1_put <= 1
+              self.bus.EN_put_old_out_resp_1_put.value <= 1
    
-              self.bus.put_old_out_resp_1_put <= 1
+              self.bus.put_old_out_resp_1_put.value <= 1
    
            yield RisingEdge(self.clock)
    	
-           self.bus.EN_put_old_out_resp_1_put <= 0
+           self.bus.EN_put_old_out_resp_1_put.value <= 0
 
 class put_old_op1_sram_data_Monitor(BusMonitor):
     """Passive output monitor of DUT"""
@@ -493,7 +493,7 @@ class put_old_op1_sram_data_Monitor(BusMonitor):
              
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_put_old_out_resp_1_put == 1:
+            if self.bus.EN_put_old_out_resp_1_put.value == 1:
               print('[IN_MON] {0:<25} : {1}'.format('put_old_op_resp', hex(self.bus.put_old_out_resp_1_put.value.integer)))
 
 ##Output SRAM Request for write
@@ -511,17 +511,17 @@ class get_new_op_sram_req_Driver(BusDriver):
            #yield super()._wait_for_signal(dut.RDY_get_new_output_data_0_get or dut.RDY_get_new_output_data_1_get)
            yield FallingEdge(self.clock)
 
-           if dut.RDY_get_new_output_data_0_get == 1:
-            self.bus.EN_get_new_output_data_0_get <= 1
-           if dut.RDY_get_new_output_data_1_get == 1:
-            self.bus.EN_get_new_output_data_1_get <= 1	   
+           if dut.RDY_get_new_output_data_0_get.value == 1:
+            self.bus.EN_get_new_output_data_0_get.value <= 1
+           if dut.RDY_get_new_output_data_1_get.value == 1:
+            self.bus.EN_get_new_output_data_1_get.value <= 1	   
 
            yield RisingEdge(self.clock)
 
-           if dut.RDY_get_new_output_data_0_get == 1:
-            self.bus.EN_get_new_output_data_0_get <= 0
-           if dut.RDY_get_new_output_data_1_get == 1:
-            self.bus.EN_get_new_output_data_1_get <= 0
+           if dut.RDY_get_new_output_data_0_get.value == 1:
+            self.bus.EN_get_new_output_data_0_get.value <= 0
+           if dut.RDY_get_new_output_data_1_get.value == 1:
+            self.bus.EN_get_new_output_data_1_get.value <= 0
 
            #Commenting this assuming there is no contention on SRAM
            #rand_count = random.randrange(0,2) 
@@ -572,7 +572,7 @@ class get_new_op1_sram_req_Monitor(BusMonitor):
              
             yield RisingEdge(self.clock)
 
-            if self.bus.EN_get_new_output_data_1_get == 1:
+            if self.bus.EN_get_new_output_data_1_get.value == 1:
                print('[OUT_MON] {0:<25} : {1}'.format('get_new_op_data', hex(self.bus.get_new_output_data_1_get.value.integer)))
                new_op_addr_value_queue_actual[1].append(self.bus.get_new_output_data_1_get.value.integer)
 
@@ -654,9 +654,9 @@ class TestBench(object):
 @cocotb.coroutine
 def clock_gen(signal):
     while True:
-        signal <= 0
+        signal.value <= 0
         yield Timer(1)
-        signal <= 1
+        signal.value <= 1
         yield Timer(1)
 
 
@@ -664,9 +664,9 @@ def clock_gen(signal):
 def run_test(dut):
     cocotb.fork(clock_gen(dut.CLK))
     tb = TestBench(dut)
-    dut.RST_N <= 0
+    dut.RST_N.value <= 0
     yield Timer(2)
-    dut.RST_N <= 1
+    dut.RST_N.value <= 1
     yield RisingEdge(dut.CLK)
 
     input_address = random.randint(0,50) 

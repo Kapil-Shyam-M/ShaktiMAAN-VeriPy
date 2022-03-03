@@ -12,10 +12,10 @@ def test_compute_reset(dut):
 
     for i in range(3):
      val = random.randint(0, 1)
-     dut.RST_N<= 0
+     dut.RST_N.value <= 0
      yield FallingEdge(dut.CLK)
      #assert dut.q == val, "output q was incorrect on the {}th cycle".format(i)
 
     for i in range (2):
-     dut.RST_N <= 1
+     dut.RST_N.value <= 1
      yield FallingEdge(dut.CLK)
