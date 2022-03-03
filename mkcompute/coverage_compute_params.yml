@@ -1,0 +1,35 @@
+top:
+  cover_percentage: 50.0
+  coverage: 3
+  size: 6
+  type: <class 'cocotb_coverage.coverage.CoverItem'>
+top.active_columns_value:
+  at_least: 1
+  bins:_hits:
+    1: 0
+    2: 1
+  cover_percentage: 50.0
+  coverage: 1
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.active_rows_value:
+  at_least: 1
+  bins:_hits:
+    1: 1
+    2: 0
+  cover_percentage: 50.0
+  coverage: 1
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.preload_value:
+  at_least: 1
+  bins:_hits:
+    0: 0
+    1: 1
+  cover_percentage: 50.0
+  coverage: 1
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1

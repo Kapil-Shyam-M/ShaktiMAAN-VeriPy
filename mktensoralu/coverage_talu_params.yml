@@ -1,0 +1,39 @@
+top:
+  cover_percentage: 30.0
+  coverage: 3
+  size: 10
+  type: <class 'cocotb_coverage.coverage.CoverItem'>
+top.alu_opcode:
+  at_least: 1
+  bins:_hits:
+    0: 1
+    1: 0
+    2: 0
+    3: 0
+  cover_percentage: 25.0
+  coverage: 1
+  size: 4
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.immediate_val:
+  at_least: 1
+  bins:_hits:
+    0: 1
+    1: 0
+  cover_percentage: 50.0
+  coverage: 1
+  size: 2
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
+top.num_active:
+  at_least: 1
+  bins:_hits:
+    1: 0
+    2: 0
+    3: 0
+    4: 1
+  cover_percentage: 25.0
+  coverage: 1
+  size: 4
+  type: <class 'cocotb_coverage.coverage.CoverPoint'>
+  weight: 1
